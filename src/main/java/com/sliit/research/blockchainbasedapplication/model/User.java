@@ -1,6 +1,7 @@
 package com.sliit.research.blockchainbasedapplication.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -16,6 +17,9 @@ public class User {
     private String password;
     private String address;
     private String token;
+
+    @OneToMany(mappedBy = "user")
+    private List<Review> reviews;
 
     public Long getId() {
         return id;
@@ -71,5 +75,13 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }
