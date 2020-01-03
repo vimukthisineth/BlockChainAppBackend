@@ -6,6 +6,7 @@ import com.sliit.research.blockchainbasedapplication.repository.FarmerRepository
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -28,7 +29,8 @@ public class FarmerController {
     }
 
     @PostMapping("/farmers")
-    public Farmer createFarmer(@Valid @RequestBody Farmer farmer){
+    public Farmer createFarmer(HttpServletRequest request, @Valid @RequestBody Farmer farmer){
+        System.out.println(request.getHeader("Authorization"));
         return farmerRepository.save(farmer);
     }
 
