@@ -28,6 +28,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Review> reviews;
 
+    @OneToMany(mappedBy = "user")
+    private List<UserInterest> userInterests;
+
     public Long getId() {
         return id;
     }
@@ -90,5 +93,13 @@ public class User {
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
+    }
+
+    public List<UserInterest> getUserInterests() {
+        return userInterests;
+    }
+
+    public void setUserInterests(List<UserInterest> userInterests) {
+        this.userInterests = userInterests;
     }
 }

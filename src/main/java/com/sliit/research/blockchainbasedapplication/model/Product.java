@@ -10,9 +10,7 @@ public class Product {
     private long id;
 
     private String name;
-
     private Double farmerPrice;
-
     private Double retailPrice;
 
     public long getId() {
