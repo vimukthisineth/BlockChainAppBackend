@@ -1,5 +1,7 @@
 package com.sliit.research.blockchainbasedapplication.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,8 +16,13 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
+
+    @JsonIgnore
     private String password;
+
     private String address;
+
+    @JsonIgnore
     private String token;
 
     @OneToMany(mappedBy = "user")

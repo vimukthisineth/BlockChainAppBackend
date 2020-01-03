@@ -6,10 +6,12 @@ import com.sliit.research.blockchainbasedapplication.model.User;
 public class AuthResponse {
     private User user;
     private AuthResponseCodes authResponseCodes;
+    private String token;
 
-    public AuthResponse(User user, AuthResponseCodes authResponseCodes) {
+    public AuthResponse(User user, AuthResponseCodes authResponseCodes, String token) {
         this.user = user;
         this.authResponseCodes = authResponseCodes;
+        this.token = token;
     }
 
     public User getUser() {
@@ -26,5 +28,13 @@ public class AuthResponse {
 
     public void setAuthResponseCodes(AuthResponseCodes authResponseCodes) {
         this.authResponseCodes = authResponseCodes;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

@@ -32,26 +32,26 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 user.setPassword(null);
                 user.setToken(randomString.nextString());
                 userRepository.save(user);
-                return new AuthResponse(user, AuthResponseCodes.SUCCESS);
+                return new AuthResponse(user, AuthResponseCodes.SUCCESS, user.getToken());
             }else {
                 login.setPassword(null);
-                return new AuthResponse(login, AuthResponseCodes.PASSWORD_WRONG);
+                return new AuthResponse(login, AuthResponseCodes.PASSWORD_WRONG, null);
             }
         }else {
             login.setPassword(null);
-            return new AuthResponse(login, AuthResponseCodes.USER_NOT_FOUND);
+            return new AuthResponse(login, AuthResponseCodes.USER_NOT_FOUND, null);
         }
     }
 
     @Override
     public AuthResponse signUp(User user) {
         if (userRepository.findByEmail(user.getEmail()).size() > 0){
-            return new AuthResponse(user, AuthResponseCodes.EMAIL_ALREADY_EXIST);
+            return new AuthResponse(user, AuthResponseCodes.EMAIL_ALREADY_EXIST, null);
         }else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
             user.setPassword(null);
-            return new AuthResponse(user, AuthResponseCodes.SUCCESS);
+            return new AuthResponse(user, AuthResponseCodes.SUCCESS, null);
         }
     }
 }
