@@ -13,6 +13,10 @@ public class Product {
     private Double farmerPrice;
     private Double retailPrice;
 
+    @ManyToOne
+    @JoinColumn(name = "product_category_id")
+    private ProductCategory productCategory;
+
     public long getId() {
         return id;
     }
@@ -39,6 +43,14 @@ public class Product {
 
     public Double getRetailPrice() {
         return retailPrice;
+    }
+
+    public ProductCategory getProductCategory() {
+        return productCategory;
+    }
+
+    public void setProductCategory(ProductCategory productCategory) {
+        this.productCategory = productCategory;
     }
 
     public void setRetailPrice(Double retailPrice) {
