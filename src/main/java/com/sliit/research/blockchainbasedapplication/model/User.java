@@ -1,6 +1,7 @@
 package com.sliit.research.blockchainbasedapplication.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sliit.research.blockchainbasedapplication.constants.UserTypes;
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,8 +17,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
-
-    @JsonIgnore
+    private UserTypes userType;
     private String password;
 
     private String address;
@@ -25,8 +25,8 @@ public class User {
     @JsonIgnore
     private String token;
 
-    @OneToMany(mappedBy = "user")
-    private List<Review> reviews;
+//    @OneToMany(mappedBy = "user")
+//    private List<Review> reviews;
 
     @OneToMany(mappedBy = "user")
     private List<UserInterest> userInterests;
@@ -87,13 +87,13 @@ public class User {
         this.token = token;
     }
 
-    public List<Review> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
-    }
+//    public List<Review> getReviews() {
+//        return reviews;
+//    }
+//
+//    public void setReviews(List<Review> reviews) {
+//        this.reviews = reviews;
+//    }
 
     public List<UserInterest> getUserInterests() {
         return userInterests;
@@ -101,5 +101,13 @@ public class User {
 
     public void setUserInterests(List<UserInterest> userInterests) {
         this.userInterests = userInterests;
+    }
+
+    public UserTypes getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserTypes userType) {
+        this.userType = userType;
     }
 }

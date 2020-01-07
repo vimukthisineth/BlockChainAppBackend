@@ -1,6 +1,7 @@
 package com.sliit.research.blockchainbasedapplication.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "product")
@@ -12,6 +13,9 @@ public class Product {
     private String name;
     private Double farmerPrice;
     private Double retailPrice;
+
+//    @OneToMany(mappedBy = "product")
+//    private List<Review> reviews;
 
     @ManyToOne
     @JoinColumn(name = "product_category_id")
@@ -56,4 +60,12 @@ public class Product {
     public void setRetailPrice(Double retailPrice) {
         this.retailPrice = retailPrice;
     }
+
+//    public List<Review> getReviews() {
+//        return reviews;
+//    }
+//
+//    public void setReviews(List<Review> reviews) {
+//        this.reviews = reviews;
+//    }
 }

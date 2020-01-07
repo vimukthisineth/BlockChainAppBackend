@@ -28,11 +28,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         List<User> usersFromDb = userRepository.findByEmail(login.getEmail());
         if (usersFromDb.size() > 0){
             User user = usersFromDb.get(0);
-            if (user.getPassword().equals(passwordEncoder.encode(login.getPassword()))){
-                user.setPassword(null);
+            if (user.getPassword().equals(login.getPassword())){
                 user.setToken(randomString.nextString());
                 userRepository.save(user);
-                return new AuthResponse(user, AuthResponseCodes.SUCCESS, user.getToken());
+                user.setPassword(null);
+                return new AuthResponse(user, AuthResponseCodes.SUCCESS, user.getToken(), user.getUserType());
             }else {
                 login.setPassword(null);
                 return new AuthResponse(login, AuthResponseCodes.PASSWORD_WRONG, null);
@@ -48,7 +48,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (userRepository.findByEmail(user.getEmail()).size() > 0){
             return new AuthResponse(user, AuthResponseCodes.EMAIL_ALREADY_EXIST, null);
         }else {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setPassword(user.getPassword());
             userRepository.save(user);
             user.setPassword(null);
             return new AuthResponse(user, AuthResponseCodes.SUCCESS, null);
