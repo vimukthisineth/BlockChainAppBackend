@@ -14,10 +14,10 @@ public class Product {
     private Double farmerPrice;
     private Double retailPrice;
 
-//    @OneToMany(mappedBy = "product")
-//    private List<Review> reviews;
+    @OneToMany(mappedBy = "product")
+    private List<Review> reviews;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_category_id")
     private ProductCategory productCategory;
 

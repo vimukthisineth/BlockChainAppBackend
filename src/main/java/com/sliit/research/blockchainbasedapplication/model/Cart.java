@@ -14,7 +14,7 @@ public class Cart {
     @OneToMany(mappedBy = "cart")
     private List<CartItem> cartItems;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
