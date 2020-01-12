@@ -4,10 +4,7 @@ import com.sliit.research.blockchainbasedapplication.model.User;
 import com.sliit.research.blockchainbasedapplication.service.AuthenticationService;
 import com.sliit.research.blockchainbasedapplication.utils.AuthResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -27,5 +24,10 @@ public class AuthenticationController {
     @PostMapping("/signup")
     public AuthResponse attemptSignup(HttpServletRequest request, @Valid @RequestBody User user){
         return authenticationService.signUp(user);
+    }
+
+    @PostMapping("/validateToken")
+    public boolean validateToken(@RequestParam("user") User user, @RequestParam("token") String token){
+        return authenticationService.validateToken(user.getId(), token);
     }
 }

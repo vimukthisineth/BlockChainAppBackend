@@ -7,4 +7,7 @@ public interface AuthenticationService {
     AuthResponse login(User user);
 
     AuthResponse signUp(User user);
+
+    boolean validateToken(long id, String token);
+
 }
