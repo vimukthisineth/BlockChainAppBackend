@@ -34,6 +34,7 @@ public class Product {
 
     private String description;
     private Date expiryDate;
+    private boolean approved;
 
     public long getId() {
         return id;
@@ -121,5 +122,13 @@ public class Product {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
     }
 }

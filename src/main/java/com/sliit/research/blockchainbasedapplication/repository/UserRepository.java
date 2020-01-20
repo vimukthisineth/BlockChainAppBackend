@@ -13,4 +13,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT u FROM User u WHERE u.id = ?1 AND u.token = ?2")
     List<User> findByIdAndToken(long id, String token);
+
+    @Query("SELECT u FROM User u WHERE u.token = ?1")
+    List<User> findByToken(String token);
 }
