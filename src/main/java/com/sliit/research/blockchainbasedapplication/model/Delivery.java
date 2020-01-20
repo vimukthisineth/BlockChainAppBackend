@@ -33,6 +33,8 @@ public class Delivery {
 
     private Double deliveryCharge;
 
+    private String remarks;
+
     public Long getId() {
         return id;
     }
@@ -95,5 +97,13 @@ public class Delivery {
 
     public void setDeliveryCharge(Double deliveryCharge) {
         this.deliveryCharge = deliveryCharge;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 }

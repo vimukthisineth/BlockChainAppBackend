@@ -33,4 +33,9 @@ public class DeliveryController {
         return deliveryRepository.findAll();
     }
 
+    @GetMapping("/deliveriesByUser/{userId}")
+    public List<Delivery> getAllDeliveriesByUser(@PathVariable(value = "userId") Long userId){
+        return deliveryRepository.findByUserId(userId);
+    }
+
 }
