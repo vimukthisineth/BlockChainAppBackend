@@ -8,6 +8,7 @@ import com.sliit.research.blockchainbasedapplication.model.User;
 import com.sliit.research.blockchainbasedapplication.repository.ProductRepository;
 import com.sliit.research.blockchainbasedapplication.repository.ReviewRepository;
 import com.sliit.research.blockchainbasedapplication.repository.UserRepository;
+import com.sliit.research.blockchainbasedapplication.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,10 +27,13 @@ public class ProductController {
     ProductRepository productRepository;
 
     @Autowired
-    ReviewRepository reviewRepository;
+    ReviewService reviewService;
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    ReviewRepository reviewRepository;
 
     @PostMapping("/products")
     public Product createProduct(HttpServletRequest request, @Valid @RequestBody Product product){
@@ -37,7 +42,12 @@ public class ProductController {
 
     @GetMapping("/products")
     public List<Product> getAllProducts(){
-        return productRepository.findAll();
+        List<Product> productsFromDb = productRepository.findAll();
+        List<Product> products = new ArrayList<>();
+        for (int i = (productsFromDb.size() - 1); i > -1; i--){
+            products.add(productsFromDb.get(i));
+        }
+        return products;
     }
 
     @GetMapping("/products/{id}")
@@ -48,7 +58,7 @@ public class ProductController {
 
     @GetMapping("/products/reviewsByProduct/{id}")
     public List<Review> getReviewsByProductId(@PathVariable(value = "id") Long productId){
-        return reviewRepository.findByProductId(productRepository.getOne(productId));
+        return reviewService.findByProductId(productId);
     }
 
     @ResponseStatus(value = HttpStatus.OK)

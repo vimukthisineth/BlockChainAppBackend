@@ -13,6 +13,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("SELECT r FROM Review r WHERE r.user = ?1")
     List<Review> findByUserId(User user);
 
-    @Query("SELECT r FROM Review r WHERE r.product = ?1")
-    List<Review> findByProductId(Product product);
+    @Query("SELECT r FROM Review r WHERE r.product.id = ?1")
+    List<Review> findByProductId(Long id);
 }

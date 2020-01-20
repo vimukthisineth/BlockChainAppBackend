@@ -1,6 +1,10 @@
 package com.sliit.research.blockchainbasedapplication.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sliit.research.blockchainbasedapplication.utils.ProductType;
+
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -14,12 +18,18 @@ public class Product {
     private Double farmerPrice;
     private Double retailPrice;
 
+    private ProductType productType;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "product")
     private List<Review> reviews;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_category_id")
     private ProductCategory productCategory;
+
+    private String description;
+    private Date expiryDate;
 
     public long getId() {
         return id;
@@ -68,4 +78,36 @@ public class Product {
 //    public void setReviews(List<Review> reviews) {
 //        this.reviews = reviews;
 //    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(Date expiryDate) {
+        this.expiryDate = expiryDate;
+    }
+
+    public ProductType getProductType() {
+        return productType;
+    }
+
+    public void setProductType(ProductType productType) {
+        this.productType = productType;
+    }
 }

@@ -8,6 +8,6 @@ public interface AuthenticationService {
 
     AuthResponse signUp(User user);
 
-    boolean validateToken(long id, String token);
+    boolean validateToken(User user, String token);
 
 }

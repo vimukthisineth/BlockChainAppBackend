@@ -56,8 +56,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public boolean validateToken(long id, String token) {
-        List<User> fromDb = userRepository.findByIdAndToken(id, token);
+    public boolean validateToken(User user, String token) {
+        if (user == null){
+            return false;
+        }
+        List<User> fromDb = userRepository.findByIdAndToken(user.getId(), token);
         if (fromDb.size() > 0){
             return true;
         }else {

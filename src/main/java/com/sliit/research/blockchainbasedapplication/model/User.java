@@ -18,9 +18,11 @@ public class User {
     private String lastName;
     private String email;
     private UserTypes userType;
+    private String address;
+
+    @JsonIgnore
     private String password;
 
-    private String address;
 
     @JsonIgnore
     private String token;
@@ -29,7 +31,20 @@ public class User {
 //    private List<Review> reviews;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<UserInterest> userInterests;
+
+    public User() {
+    }
+
+    public User(String firstName, String lastName, String email, UserTypes userType, String address, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.userType = userType;
+        this.address = address;
+        this.password = password;
+    }
 
     public Long getId() {
         return id;

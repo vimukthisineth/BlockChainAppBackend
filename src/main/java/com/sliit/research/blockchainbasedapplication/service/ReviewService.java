@@ -9,4 +9,5 @@ public interface ReviewService {
     List<Review> getAll();
     Review create(Review review);
     List<Review> findByUserId(Long userId);
+    List<Review> findByProductId(Long id);
 }

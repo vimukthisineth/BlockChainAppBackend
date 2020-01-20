@@ -1,5 +1,6 @@
 package com.sliit.research.blockchainbasedapplication.service.impl;
 
+import com.sliit.research.blockchainbasedapplication.model.Product;
 import com.sliit.research.blockchainbasedapplication.model.Review;
 import com.sliit.research.blockchainbasedapplication.model.User;
 import com.sliit.research.blockchainbasedapplication.repository.ReviewRepository;
@@ -43,5 +44,21 @@ public class ReviewServiceImpl implements ReviewService {
         }else {
             return new ArrayList<>();
         }
+    }
+
+    @Override
+    public List<Review> findByProductId(Long id) {
+        List<Review> reviews = reviewRepository.findByProductId(id);
+        for(Review review : reviews){
+            User user = new User();
+            Product product = new Product();
+            product.setId(review.getProduct().getId());
+            user.setId(review.getUser().getId());
+            user.setFirstName(review.getUser().getFirstName());
+            user.setLastName(review.getUser().getLastName());
+            review.setUser(user);
+            review.setProduct(product);
+        }
+        return reviews;
     }
 }
