@@ -1,7 +1,7 @@
 package com.sliit.research.blockchainbasedapplication.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sliit.research.blockchainbasedapplication.utils.ProductType;
+import com.sliit.research.blockchainbasedapplication.constants.ProductType;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -27,6 +27,10 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_category_id")
     private ProductCategory productCategory;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     private String description;
     private Date expiryDate;
@@ -109,5 +113,13 @@ public class Product {
 
     public void setProductType(ProductType productType) {
         this.productType = productType;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
