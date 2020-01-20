@@ -17,6 +17,7 @@ public class Product {
     private String name;
     private Double farmerPrice;
     private Double retailPrice;
+    private Double wholeSalePrice;
 
     private ProductType productType;
 
@@ -126,6 +127,14 @@ public class Product {
 
     public boolean isApproved() {
         return approved;
+    }
+
+    public Double getWholeSalePrice() {
+        return wholeSalePrice;
+    }
+
+    public void setWholeSalePrice(Double wholeSalePrice) {
+        this.wholeSalePrice = wholeSalePrice;
     }
 
     public void setApproved(boolean approved) {
