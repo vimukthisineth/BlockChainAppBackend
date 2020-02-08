@@ -23,16 +23,18 @@ public class TransactionFilter implements Filter {
         String token = httpServletRequest.getHeader("Token");
         String path = httpServletRequest.getRequestURI();
         String method = httpServletRequest.getMethod();
-        if ("POST".equals(method) || "GET".equals(method)){
+        if ("POST".equals(method)){
             if ("/auth/signup".equals(path) || "/auth/login".equals(path)){
                 filterChain.doFilter(servletRequest, servletResponse);
             }else {
                 if (userRepository.findByToken(token).size() > 0){
                     filterChain.doFilter(servletRequest, servletResponse);
                 }else {
-                    ((HttpServletResponse) servletResponse).sendError(401);
+                    ((HttpServletResponse) servletResponse).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token not valid");
                 }
             }
+        }else if ("GET".equals(method)){
+            filterChain.doFilter(servletRequest, servletResponse);
         }else {
             filterChain.doFilter(servletRequest, servletResponse);
         }

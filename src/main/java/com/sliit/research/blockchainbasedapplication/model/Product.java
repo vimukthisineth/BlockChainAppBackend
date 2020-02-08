@@ -21,6 +21,10 @@ public class Product {
 
     private ProductType productType;
 
+    private Date farmedDate;
+    private Date manufacturedDate;
+    private Date distributedDate;
+
     @JsonIgnore
     @OneToMany(mappedBy = "product")
     private List<Review> reviews;
@@ -139,5 +143,29 @@ public class Product {
 
     public void setApproved(boolean approved) {
         this.approved = approved;
+    }
+
+    public Date getFarmedDate() {
+        return farmedDate;
+    }
+
+    public void setFarmedDate(Date farmedDate) {
+        this.farmedDate = farmedDate;
+    }
+
+    public Date getManufacturedDate() {
+        return manufacturedDate;
+    }
+
+    public void setManufacturedDate(Date manufacturedDate) {
+        this.manufacturedDate = manufacturedDate;
+    }
+
+    public Date getDistributedDate() {
+        return distributedDate;
+    }
+
+    public void setDistributedDate(Date distributedDate) {
+        this.distributedDate = distributedDate;
     }
 }

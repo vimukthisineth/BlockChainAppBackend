@@ -1,5 +1,6 @@
 package com.sliit.research.blockchainbasedapplication.controller;
 
+import com.sliit.research.blockchainbasedapplication.constants.ProductType;
 import com.sliit.research.blockchainbasedapplication.exception.ResourceNotFoundException;
 import com.sliit.research.blockchainbasedapplication.model.Farmer;
 import com.sliit.research.blockchainbasedapplication.model.Product;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -38,6 +40,11 @@ public class ProductController {
 
     @PostMapping("/products")
     public Product createProduct(HttpServletRequest request, @Valid @RequestBody Product product){
+        if (product.getProductType() == ProductType.FARMER){
+            product.setFarmedDate(new Date());
+        }else if (product.getProductType() == ProductType.MANUFACTURER){
+            product.setManufacturedDate(new Date());
+        }
         return productRepository.save(product);
     }
 
