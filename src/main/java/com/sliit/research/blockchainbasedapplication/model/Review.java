@@ -26,6 +26,8 @@ public class Review {
     @Column(name="timestamp", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date date;
 
+    private String sentiment;
+
     public Long getId() {
         return id;
     }
@@ -64,5 +66,13 @@ public class Review {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getSentiment() {
+        return sentiment;
+    }
+
+    public void setSentiment(String sentiment) {
+        this.sentiment = sentiment;
     }
 }

@@ -9,6 +9,13 @@ import com.sliit.research.blockchainbasedapplication.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,5 +67,28 @@ public class ReviewServiceImpl implements ReviewService {
             review.setProduct(product);
         }
         return reviews;
+    }
+
+    @Override
+    public String getSentimentalAnalysis(String review) throws IOException {
+        try {
+            String requestUrl = "http://127.0.0.1:8083/NLP?text="+review.replace(" ", "%20");
+            URL url = new URL(requestUrl);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setConnectTimeout(3000);
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream())
+            );
+            String inputLine;
+            StringBuffer content = new StringBuffer();
+            while ((inputLine = in.readLine()) != null ){
+                content.append(inputLine);
+            }
+            String response = content.toString();
+            return response;
+        }catch (Exception e){
+            return null;
+        }
     }
 }

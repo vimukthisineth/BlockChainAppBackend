@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api")
@@ -21,7 +22,8 @@ public class ReviewController {
     }
 
     @PostMapping("/reviews")
-    public Review createReview(HttpServletRequest request, @Valid @RequestBody Review review){
+    public Review createReview(HttpServletRequest request, @Valid @RequestBody Review review) throws IOException {
+        review.setSentiment(reviewService.getSentimentalAnalysis(review.getContent()));
         return reviewService.create(review);
     }
 }

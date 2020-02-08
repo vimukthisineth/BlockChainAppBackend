@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +64,8 @@ public class ProductController {
 
     @ResponseStatus(value = HttpStatus.OK)
     @PostMapping(value = "/products/reviews", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Review createReview(HttpServletRequest request, @Valid @RequestBody Review review){
+    public Review createReview(HttpServletRequest request, @Valid @RequestBody Review review) throws IOException {
+        review.setSentiment(reviewService.getSentimentalAnalysis(review.getContent()));
         return reviewRepository.save(review);
     }
 
