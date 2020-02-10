@@ -22,8 +22,11 @@ public class Product {
     private ProductType productType;
 
     private Date farmedDate;
+    private Date harvestedDate;
     private Date manufacturedDate;
     private Date distributedDate;
+    private Date approvedDate;
+    private Date disApprovedDate;
 
     @JsonIgnore
     @OneToMany(mappedBy = "product")
@@ -167,5 +170,29 @@ public class Product {
 
     public void setDistributedDate(Date distributedDate) {
         this.distributedDate = distributedDate;
+    }
+
+    public Date getApprovedDate() {
+        return approvedDate;
+    }
+
+    public Date getDisApprovedDate() {
+        return disApprovedDate;
+    }
+
+    public void setDisApprovedDate(Date disApprovedDate) {
+        this.disApprovedDate = disApprovedDate;
+    }
+
+    public Date getHarvestedDate() {
+        return harvestedDate;
+    }
+
+    public void setHarvestedDate(Date harvestedDate) {
+        this.harvestedDate = harvestedDate;
+    }
+
+    public void setApprovedDate(Date approvedDate) {
+        this.approvedDate = approvedDate;
     }
 }

@@ -41,9 +41,19 @@ public class ProductController {
     @PostMapping("/products")
     public Product createProduct(HttpServletRequest request, @Valid @RequestBody Product product){
         if (product.getProductType() == ProductType.FARMER){
-            product.setFarmedDate(new Date());
+            product.setHarvestedDate(new Date());
         }else if (product.getProductType() == ProductType.MANUFACTURER){
-            product.setManufacturedDate(new Date());
+            if (product.getId() > 0){
+                Product productOnDb = productRepository.findById(product.getId())
+                        .orElseThrow(() -> new ResourceNotFoundException("Product", "id", product));
+                if (!productOnDb.isApproved() && product.isApproved()){
+                    product.setApprovedDate(new Date());
+                }else if (productOnDb.isApproved() && !product.isApproved()){
+                    product.setDisApprovedDate(new Date());
+                }else {
+                    product.setManufacturedDate(new Date());
+                }
+            }
         }
         return productRepository.save(product);
     }
