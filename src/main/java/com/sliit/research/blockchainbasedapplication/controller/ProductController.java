@@ -1,5 +1,7 @@
 package com.sliit.research.blockchainbasedapplication.controller;
 
+import com.sliit.research.blockchainbasedapplication.blockChain.Block;
+import com.sliit.research.blockchainbasedapplication.blockChain.BlockChain;
 import com.sliit.research.blockchainbasedapplication.constants.ProductType;
 import com.sliit.research.blockchainbasedapplication.exception.ResourceNotFoundException;
 import com.sliit.research.blockchainbasedapplication.model.Farmer;
@@ -40,6 +42,8 @@ public class ProductController {
 
     @PostMapping("/products")
     public Product createProduct(HttpServletRequest request, @Valid @RequestBody Product product){
+        BlockChain blockChain = BlockChain.getInstance();
+        String blockMessage = "Farmed on: "+new Date().toString();
         if (product.getProductType() == ProductType.FARMER){
             product.setHarvestedDate(new Date());
         }else if (product.getProductType() == ProductType.MANUFACTURER){
@@ -48,14 +52,20 @@ public class ProductController {
                         .orElseThrow(() -> new ResourceNotFoundException("Product", "id", product));
                 if (!productOnDb.isApproved() && product.isApproved()){
                     product.setApprovedDate(new Date());
+                    blockMessage = "Approved on: "+new Date().toString();
                 }else if (productOnDb.isApproved() && !product.isApproved()){
                     product.setDisApprovedDate(new Date());
+                    blockMessage = "Disapproved on: "+new Date().toString();
                 }else {
                     product.setManufacturedDate(new Date());
+                    blockMessage = "Manufactured on: "+new Date().toString();
                 }
             }
         }
-        return productRepository.save(product);
+        Product savedProduct = productRepository.save(product);
+        blockMessage = "Product: "+savedProduct.getId()+" "+blockMessage;
+        blockChain.addBlock(new Block(blockMessage, blockChain.getBlockChain().get(blockChain.getBlockChainSize()-1).hash));
+        return savedProduct;
     }
 
     @GetMapping("/products")
