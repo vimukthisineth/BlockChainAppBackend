@@ -1,6 +1,7 @@
 package com.sliit.research.blockchainbasedapplication.service;
 
 import com.sliit.research.blockchainbasedapplication.model.Review;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

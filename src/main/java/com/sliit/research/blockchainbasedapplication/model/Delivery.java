@@ -35,6 +35,10 @@ public class Delivery {
 
     private String remarks;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "delivery_route_id")
+    private DeliveryRoute deliveryRoute;
+
     public Long getId() {
         return id;
     }
@@ -101,6 +105,14 @@ public class Delivery {
 
     public String getRemarks() {
         return remarks;
+    }
+
+    public DeliveryRoute getDeliveryRoute() {
+        return deliveryRoute;
+    }
+
+    public void setDeliveryRoute(DeliveryRoute deliveryRoute) {
+        this.deliveryRoute = deliveryRoute;
     }
 
     public void setRemarks(String remarks) {
