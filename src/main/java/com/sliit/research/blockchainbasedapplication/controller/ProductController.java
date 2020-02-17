@@ -44,9 +44,10 @@ public class ProductController {
     public Product createProduct(HttpServletRequest request, @Valid @RequestBody Product product){
         BlockChain blockChain = BlockChain.getInstance();
         String blockMessage = "Farmed on: "+new Date().toString();
-        if (product.getProductType() == ProductType.FARMER){
-            product.setHarvestedDate(new Date());
-        }else if (product.getProductType() == ProductType.MANUFACTURER || product.getProductType() == ProductType.FARMER){
+        if (product.getProductType() == ProductType.MANUFACTURER || product.getProductType() == ProductType.FARMER){
+            if (product.getProductType() == ProductType.FARMER){
+                product.setHarvestedDate(new Date());
+            }
             if (product.getId() > 0){
                 Product productOnDb = productRepository.findById(product.getId())
                         .orElseThrow(() -> new ResourceNotFoundException("Product", "id", product));
