@@ -46,7 +46,7 @@ public class ProductController {
         String blockMessage = "Farmed on: "+new Date().toString();
         if (product.getProductType() == ProductType.FARMER){
             product.setHarvestedDate(new Date());
-        }else if (product.getProductType() == ProductType.MANUFACTURER){
+        }else if (product.getProductType() == ProductType.MANUFACTURER || product.getProductType() == ProductType.FARMER){
             if (product.getId() > 0){
                 Product productOnDb = productRepository.findById(product.getId())
                         .orElseThrow(() -> new ResourceNotFoundException("Product", "id", product));
