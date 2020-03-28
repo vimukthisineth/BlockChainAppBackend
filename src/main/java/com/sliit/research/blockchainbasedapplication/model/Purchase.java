@@ -22,6 +22,17 @@ public class Purchase {
 
     private String address;
 
+    public Purchase() {
+    }
+
+    public Purchase(Product product, Date date, Double unitPrice, float qty, String address) {
+        this.product = product;
+        this.date = date;
+        this.unitPrice = unitPrice;
+        this.qty = qty;
+        this.address = address;
+    }
+
     public Long getId() {
         return id;
     }

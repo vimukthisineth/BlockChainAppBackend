@@ -1,11 +1,13 @@
 package com.sliit.research.blockchainbasedapplication.controller;
 
 import com.sliit.research.blockchainbasedapplication.dto.CartItemDto;
+import com.sliit.research.blockchainbasedapplication.dto.CheckoutDto;
 import com.sliit.research.blockchainbasedapplication.model.Cart;
 import com.sliit.research.blockchainbasedapplication.model.CartItem;
 import com.sliit.research.blockchainbasedapplication.model.User;
 import com.sliit.research.blockchainbasedapplication.repository.CartItemRepository;
 import com.sliit.research.blockchainbasedapplication.repository.CartRepository;
+import com.sliit.research.blockchainbasedapplication.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +23,9 @@ public class CartController {
 
     @Autowired
     CartItemRepository cartItemRepository;
+
+    @Autowired
+    PurchaseService purchaseService;
 
     @PostMapping("/cartItem")
     public CartItem createCartItem(@Valid @RequestBody CartItemDto cartItemDto){
@@ -51,6 +56,12 @@ public class CartController {
     @PostMapping("/removeCartItem")
     public int removeCartItem(@Valid @RequestBody CartItem cartItem){
         cartItemRepository.delete(cartItem);
+        return 1;
+    }
+
+    @PostMapping("/checkout")
+    public int checkout(@Valid @RequestBody  CheckoutDto checkoutDto){
+        purchaseService.newPurchase(checkoutDto);
         return 1;
     }
 
