@@ -1,37 +1,26 @@
 package com.sliit.research.blockchainbasedapplication.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sliit.research.blockchainbasedapplication.dto.CartItemDto;
-
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
-@Table(name = "cart_items")
-public class CartItem {
+@Table(name = "purchase")
+public class Purchase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
 
+    private Date date;
+
+    private Double unitPrice;
     private float qty;
 
-    public CartItem() {
-    }
-
-    public CartItem(CartItemDto cartItemDto) {
-        this.cart = cartItemDto.getCart();
-        this.product = cartItemDto.getProduct();
-        this.qty = cartItemDto.getQty();
-    }
+    private String address;
 
     public Long getId() {
         return id;
@@ -39,14 +28,6 @@ public class CartItem {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Cart getCart() {
-        return cart;
-    }
-
-    public void setCart(Cart cart) {
-        this.cart = cart;
     }
 
     public Product getProduct() {
@@ -57,11 +38,35 @@ public class CartItem {
         this.product = product;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Double getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(Double unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
     public float getQty() {
         return qty;
     }
 
     public void setQty(float qty) {
         this.qty = qty;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

@@ -40,6 +40,14 @@ public class Product {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "product")
+    private List<CartItem> cartItems;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "product")
+    private List<Purchase> purchases;
+
     private String description;
     private Date expiryDate;
     private boolean approved;
@@ -194,5 +202,21 @@ public class Product {
 
     public void setApprovedDate(Date approvedDate) {
         this.approvedDate = approvedDate;
+    }
+
+    public List<CartItem> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
+    }
+
+    public List<Purchase> getPurchases() {
+        return purchases;
+    }
+
+    public void setPurchases(List<Purchase> purchases) {
+        this.purchases = purchases;
     }
 }
