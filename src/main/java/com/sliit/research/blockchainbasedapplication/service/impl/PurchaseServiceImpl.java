@@ -1,14 +1,13 @@
 package com.sliit.research.blockchainbasedapplication.service.impl;
 
+import com.sliit.research.blockchainbasedapplication.constants.LogTypes;
 import com.sliit.research.blockchainbasedapplication.constants.ProductType;
 import com.sliit.research.blockchainbasedapplication.dto.CheckoutDto;
-import com.sliit.research.blockchainbasedapplication.model.Cart;
-import com.sliit.research.blockchainbasedapplication.model.CartItem;
-import com.sliit.research.blockchainbasedapplication.model.Purchase;
-import com.sliit.research.blockchainbasedapplication.model.User;
+import com.sliit.research.blockchainbasedapplication.model.*;
 import com.sliit.research.blockchainbasedapplication.repository.CartItemRepository;
 import com.sliit.research.blockchainbasedapplication.repository.CartRepository;
 import com.sliit.research.blockchainbasedapplication.repository.PurchaseRepository;
+import com.sliit.research.blockchainbasedapplication.repository.UserActivityRepository;
 import com.sliit.research.blockchainbasedapplication.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +27,9 @@ public class PurchaseServiceImpl implements PurchaseService {
 
     @Autowired
     CartItemRepository cartItemRepository;
+
+    @Autowired
+    UserActivityRepository userActivityRepository;
 
     @Override
     public List<Purchase> newPurchase(CheckoutDto checkoutDto) {
@@ -51,6 +53,14 @@ public class PurchaseServiceImpl implements PurchaseService {
                 purchase.setUser(checkoutDto.getUser());
                 purchase = purchaseRepository.save(purchase);
                 purchases.add(purchase);
+                UserActivity userActivity = new UserActivity(
+                        LogTypes.PURCHASE,
+                        new Date(),
+                        null,
+                        purchase.getId(),
+                        null
+                );
+                userActivityRepository.save(userActivity);
                 cartItemRepository.delete(cartItem);
             }
             return purchases;

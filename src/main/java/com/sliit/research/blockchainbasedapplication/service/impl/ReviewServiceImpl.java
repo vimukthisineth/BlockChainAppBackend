@@ -4,6 +4,7 @@ import com.sliit.research.blockchainbasedapplication.model.Product;
 import com.sliit.research.blockchainbasedapplication.model.Review;
 import com.sliit.research.blockchainbasedapplication.model.User;
 import com.sliit.research.blockchainbasedapplication.repository.ReviewRepository;
+import com.sliit.research.blockchainbasedapplication.repository.UserActivityRepository;
 import com.sliit.research.blockchainbasedapplication.repository.UserRepository;
 import com.sliit.research.blockchainbasedapplication.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    UserActivityRepository userActivityRepository;
 
     @Override
     public Review findById(Long id) {

@@ -1,7 +1,10 @@
 package com.sliit.research.blockchainbasedapplication.service.impl;
 
 import com.sliit.research.blockchainbasedapplication.constants.AuthResponseCodes;
+import com.sliit.research.blockchainbasedapplication.constants.LogTypes;
 import com.sliit.research.blockchainbasedapplication.model.User;
+import com.sliit.research.blockchainbasedapplication.model.UserActivity;
+import com.sliit.research.blockchainbasedapplication.repository.UserActivityRepository;
 import com.sliit.research.blockchainbasedapplication.repository.UserRepository;
 import com.sliit.research.blockchainbasedapplication.service.AuthenticationService;
 import com.sliit.research.blockchainbasedapplication.utils.AuthResponse;
@@ -10,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service("authenticationService")
@@ -20,6 +24,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    UserActivityRepository userActivityRepository;
 
     private RandomString randomString = new RandomString(64);
 
@@ -32,6 +39,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 user.setToken(randomString.nextString());
                 userRepository.save(user);
                 user.setPassword(null);
+                UserActivity userActivity = new UserActivity(
+                        LogTypes.LOGIN,
+                        new Date(),
+                        user.getId(),
+                        null,
+                        null
+                );
+                userActivityRepository.save(userActivity);
                 return new AuthResponse(user, AuthResponseCodes.SUCCESS, user.getToken(), user.getUserType());
             }else {
                 login.setPassword(null);
