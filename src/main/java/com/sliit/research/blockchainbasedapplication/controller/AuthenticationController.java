@@ -1,15 +1,20 @@
 package com.sliit.research.blockchainbasedapplication.controller;
 
+import com.sliit.research.blockchainbasedapplication.dto.UserValidDto;
 import com.sliit.research.blockchainbasedapplication.model.User;
 import com.sliit.research.blockchainbasedapplication.repository.UserRepository;
 import com.sliit.research.blockchainbasedapplication.service.AuthenticationService;
+import com.sliit.research.blockchainbasedapplication.service.UserActivityService;
 import com.sliit.research.blockchainbasedapplication.utils.AuthResponse;
 import com.sliit.research.blockchainbasedapplication.utils.LoginSignup;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,6 +26,9 @@ public class AuthenticationController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    UserActivityService userActivityService;
 
     @PostMapping("/login")
     public AuthResponse attemptLogin(HttpServletRequest request, @Valid @RequestBody LoginSignup loginSignup){
@@ -56,6 +64,18 @@ public class AuthenticationController {
     @PostMapping("/users")
     public List<User> getAllUsers(){
         return userRepository.findAll();
+    }
+
+    @PostMapping("/usersValidated")
+    public List<UserValidDto> getAllUsersValidated() throws IOException, ParseException {
+        List<User> users = userRepository.findAll();
+        List<UserValidDto> userValidDtos = new ArrayList<>();
+        for (User user : users){
+            boolean valid = userActivityService.isUserReal(user);
+            UserValidDto userValidDto = new UserValidDto(user, valid);
+            userValidDtos.add(userValidDto);
+        }
+        return userValidDtos;
     }
 
 }
