@@ -16,6 +16,10 @@ public class Purchase {
     private Product product;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "warehouse_id")
+    private Warehouse warehouse;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -25,16 +29,18 @@ public class Purchase {
     private float qty;
 
     private String address;
+    private boolean delivered;
 
     public Purchase() {
     }
 
-    public Purchase(Product product, Date date, Double unitPrice, float qty, String address) {
+    public Purchase(Product product, Date date, Double unitPrice, float qty, String address, Warehouse warehouse) {
         this.product = product;
         this.date = date;
         this.unitPrice = unitPrice;
         this.qty = qty;
         this.address = address;
+        this.warehouse = warehouse;
     }
 
     public Long getId() {
@@ -91,5 +97,21 @@ public class Purchase {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public boolean isDelivered() {
+        return delivered;
+    }
+
+    public void setDelivered(boolean delivered) {
+        this.delivered = delivered;
+    }
+
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
     }
 }

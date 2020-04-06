@@ -38,7 +38,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             if (user.getPassword().equals(login.getPassword())){
                 user.setToken(randomString.nextString());
                 userRepository.save(user);
-                user.setPassword(null);
                 UserActivity userActivity = new UserActivity(
                         LogTypes.LOGIN,
                         new Date(),
@@ -47,6 +46,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         null
                 );
                 userActivityRepository.save(userActivity);
+                user.setPassword(null);
                 return new AuthResponse(user, AuthResponseCodes.SUCCESS, user.getToken(), user.getUserType());
             }else {
                 login.setPassword(null);

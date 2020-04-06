@@ -48,7 +48,8 @@ public class PurchaseServiceImpl implements PurchaseService {
                         new Date(),
                         price,
                         cartItem.getQty(),
-                        checkoutDto.getAddress()
+                        checkoutDto.getAddress(),
+                        cartItem.getWarehouse()
                 );
                 purchase.setUser(checkoutDto.getUser());
                 purchase = purchaseRepository.save(purchase);

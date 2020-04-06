@@ -22,6 +22,10 @@ public class CartItem {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "warehouse_id")
+    private Warehouse warehouse;
+
     private float qty;
 
     public CartItem() {
@@ -31,6 +35,7 @@ public class CartItem {
         this.cart = cartItemDto.getCart();
         this.product = cartItemDto.getProduct();
         this.qty = cartItemDto.getQty();
+        this.warehouse = cartItemDto.getWarehouse();
     }
 
     public Long getId() {
@@ -63,5 +68,13 @@ public class CartItem {
 
     public void setQty(float qty) {
         this.qty = qty;
+    }
+
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
     }
 }

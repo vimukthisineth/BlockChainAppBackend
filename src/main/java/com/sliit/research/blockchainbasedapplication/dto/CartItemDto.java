@@ -2,6 +2,7 @@ package com.sliit.research.blockchainbasedapplication.dto;
 
 import com.sliit.research.blockchainbasedapplication.model.Cart;
 import com.sliit.research.blockchainbasedapplication.model.Product;
+import com.sliit.research.blockchainbasedapplication.model.Warehouse;
 
 public class CartItemDto {
 
@@ -9,6 +10,7 @@ public class CartItemDto {
     private Cart cart;
     private Product product;
     private float qty;
+    private Warehouse warehouse;
 
     public Long getId() {
         return id;
@@ -40,5 +42,13 @@ public class CartItemDto {
 
     public void setQty(float qty) {
         this.qty = qty;
+    }
+
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
     }
 }

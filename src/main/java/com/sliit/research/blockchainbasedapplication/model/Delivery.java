@@ -39,6 +39,14 @@ public class Delivery {
     @JoinColumn(name = "delivery_route_id")
     private DeliveryRoute deliveryRoute;
 
+    public Delivery() {
+    }
+
+    public Delivery(@NotNull String origin, @NotNull String destination) {
+        this.origin = origin;
+        this.destination = destination;
+    }
+
     public Long getId() {
         return id;
     }

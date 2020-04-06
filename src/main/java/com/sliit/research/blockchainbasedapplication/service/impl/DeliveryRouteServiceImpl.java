@@ -69,10 +69,18 @@ public class DeliveryRouteServiceImpl implements DeliveryRouteService {
         return distanceMatrix;
     }
 
-    private List<RouteElement> getDistanceList(String origin, List<String> destinations) throws IOException, JSONException {
+    public List<RouteElement> getDistanceList(String origin, List<String> destinations) throws IOException, JSONException {
         List<RouteElement> distances = new ArrayList<>();
+        if (origin != null){
+            origin = origin.trim();
+            origin = origin.replaceAll(" ", "%20");
+        }
         String requestUrl = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins="+origin+"&destinations=";
         for (String destination : destinations){
+            if (destination != null){
+                destination = destination.trim();
+                destination = destination.replaceAll(" ", "%20");
+            }
             requestUrl += destination+"|";
         }
         requestUrl += "&key=AIzaSyAKXsRBGniwZd_0Vsm6jh2jqCGaw0u2TN4";
@@ -81,14 +89,16 @@ public class DeliveryRouteServiceImpl implements DeliveryRouteService {
         JSONArray rows = responseObject.getJSONArray("rows");
         JSONArray elements = rows.getJSONObject(0).getJSONArray("elements");
         for (int i = 0; i < elements.length(); i++){
-            distances.add(
-                    new RouteElement(
-                            elements.getJSONObject(i).getJSONObject("distance").getInt("value")/1000,
-                            elements.getJSONObject(i).getJSONObject("duration").getInt("value"),
-                            elements.getJSONObject(i).getJSONObject("duration").getString("text"),
-                            destinations.get(i)
-                    )
-            );
+            try {
+                distances.add(
+                        new RouteElement(
+                                elements.getJSONObject(i).getJSONObject("distance").getInt("value")/1000,
+                                elements.getJSONObject(i).getJSONObject("duration").getInt("value"),
+                                elements.getJSONObject(i).getJSONObject("duration").getString("text"),
+                                destinations.get(i)
+                        )
+                );
+            }catch (Exception e){}
         }
         return distances;
     }
