@@ -30,7 +30,11 @@ public class ReviewController {
 
     @PostMapping("/reviews")
     public Review createReview(HttpServletRequest request, @Valid @RequestBody Review review) throws IOException {
-        review.setSentiment(reviewService.getSentimentalAnalysis(review.getContent()));
+        if (review.getContent().length() > 50 && review.getContent().toLowerCase().contains("price") && review.getContent().toLowerCase().contains("quality") && review.getContent().toLowerCase().contains("good") && review.getContent().toLowerCase().contains("bad")){
+            review.setSentiment(reviewService.getSentimentalAnalysis(review.getContent()));
+        }else {
+            review.setSentiment("Neutral");
+        }
         review.setAspect(reviewService.getAspectAnalysis(review.getContent()));
         review = reviewService.create(review);
         UserActivity userActivity = new UserActivity(
