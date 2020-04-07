@@ -10,6 +10,7 @@ public class BlockChain {
     }
 
     public int difficulty = 5;
+    public boolean blockChainRestored = false;
 
     private ArrayList<Block> blockChain = new ArrayList<Block>();
 
@@ -55,5 +56,9 @@ public class BlockChain {
             }
         }
         return true;
+    }
+
+    public void setBlockChain(ArrayList<Block> blockChain) {
+        this.blockChain = blockChain;
     }
 }

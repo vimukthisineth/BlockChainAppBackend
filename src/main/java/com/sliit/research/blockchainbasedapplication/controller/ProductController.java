@@ -11,6 +11,7 @@ import com.sliit.research.blockchainbasedapplication.model.User;
 import com.sliit.research.blockchainbasedapplication.repository.ProductRepository;
 import com.sliit.research.blockchainbasedapplication.repository.ReviewRepository;
 import com.sliit.research.blockchainbasedapplication.repository.UserRepository;
+import com.sliit.research.blockchainbasedapplication.service.BlockChainService;
 import com.sliit.research.blockchainbasedapplication.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,6 +41,9 @@ public class ProductController {
     @Autowired
     ReviewRepository reviewRepository;
 
+    @Autowired
+    BlockChainService blockChainService;
+
     @PostMapping("/products")
     public Product createProduct(HttpServletRequest request, @Valid @RequestBody Product product){
         BlockChain blockChain = BlockChain.getInstance();
@@ -65,7 +69,10 @@ public class ProductController {
         }
         Product savedProduct = productRepository.save(product);
         blockMessage = "Product: "+savedProduct.getId()+" "+blockMessage;
-        blockChain.addBlock(new Block(blockMessage, blockChain.getBlockChain().get(blockChain.getBlockChainSize()-1).hash));
+        Block block = new Block(blockMessage, blockChain.getBlockChain().get(blockChain.getBlockChainSize()-1).hash);
+        blockChain.addBlock(block);
+        // Additional DB backup
+        blockChainService.addBlock(block);
         return savedProduct;
     }
 

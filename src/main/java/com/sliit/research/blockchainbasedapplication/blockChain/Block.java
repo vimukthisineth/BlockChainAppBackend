@@ -1,5 +1,7 @@
 package com.sliit.research.blockchainbasedapplication.blockChain;
 
+import com.sliit.research.blockchainbasedapplication.model.BlockModel;
+
 import java.util.Date;
 
 public class Block {
@@ -16,6 +18,38 @@ public class Block {
         this.previousHash = previousHash;
         this.timeStamp = new Date().getTime();
         this.hash = calculateHash(); //Making sure we do this after we set the other values.
+    }
+
+    public Block(BlockModel blockModel) {
+        this.hash = blockModel.getHash();
+        this.previousHash = blockModel.getPreviousHash();
+        this.data = blockModel.getData();
+        this.timeStamp = blockModel.getTimeStamp();
+        this.nonce = blockModel.getNonce();
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public int getNonce() {
+        return nonce;
+    }
+
+    public void setNonce(int nonce) {
+        this.nonce = nonce;
     }
 
     public String calculateHash() {

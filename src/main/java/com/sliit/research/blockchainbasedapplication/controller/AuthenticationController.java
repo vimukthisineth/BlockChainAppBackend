@@ -4,6 +4,7 @@ import com.sliit.research.blockchainbasedapplication.dto.UserValidDto;
 import com.sliit.research.blockchainbasedapplication.model.User;
 import com.sliit.research.blockchainbasedapplication.repository.UserRepository;
 import com.sliit.research.blockchainbasedapplication.service.AuthenticationService;
+import com.sliit.research.blockchainbasedapplication.service.BlockChainService;
 import com.sliit.research.blockchainbasedapplication.service.UserActivityService;
 import com.sliit.research.blockchainbasedapplication.utils.AuthResponse;
 import com.sliit.research.blockchainbasedapplication.utils.LoginSignup;
@@ -30,6 +31,9 @@ public class AuthenticationController {
     @Autowired
     UserActivityService userActivityService;
 
+    @Autowired
+    BlockChainService blockChainService;
+
     @PostMapping("/login")
     public AuthResponse attemptLogin(HttpServletRequest request, @Valid @RequestBody LoginSignup loginSignup){
         User user = new User(
@@ -40,6 +44,7 @@ public class AuthenticationController {
                 loginSignup.getAddress(),
                 loginSignup.getPassword()
         );
+        blockChainService.getBlockChainFromDb();
         return authenticationService.login(user);
     }
 
