@@ -95,4 +95,27 @@ public class ReviewServiceImpl implements ReviewService {
             return null;
         }
     }
+
+    @Override
+    public String getAspectAnalysis(String review) throws IOException {
+        try {
+            String requestUrl = "http://127.0.0.1:8084/NlpAspect?text="+review.replace(" ", "%20");
+            URL url = new URL(requestUrl);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setConnectTimeout(3000);
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream())
+            );
+            String inputLine;
+            StringBuffer content = new StringBuffer();
+            while ((inputLine = in.readLine()) != null ){
+                content.append(inputLine);
+            }
+            String response = content.toString();
+            return response;
+        }catch (Exception e){
+            return null;
+        }
+    }
 }

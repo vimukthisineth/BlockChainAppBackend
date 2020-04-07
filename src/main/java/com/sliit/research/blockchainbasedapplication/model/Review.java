@@ -27,6 +27,7 @@ public class Review {
     private Date date;
 
     private String sentiment;
+    private String aspect;
 
     public Long getId() {
         return id;
@@ -74,5 +75,13 @@ public class Review {
 
     public void setSentiment(String sentiment) {
         this.sentiment = sentiment;
+    }
+
+    public String getAspect() {
+        return aspect;
+    }
+
+    public void setAspect(String aspect) {
+        this.aspect = aspect;
     }
 }

@@ -94,6 +94,7 @@ public class ProductController {
     @PostMapping(value = "/products/reviews", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Review createReview(HttpServletRequest request, @Valid @RequestBody Review review) throws IOException {
         review.setSentiment(reviewService.getSentimentalAnalysis(review.getContent()));
+        review.setAspect(reviewService.getAspectAnalysis(review.getContent()));
         return reviewRepository.save(review);
     }
 

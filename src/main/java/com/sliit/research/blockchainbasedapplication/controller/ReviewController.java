@@ -31,6 +31,7 @@ public class ReviewController {
     @PostMapping("/reviews")
     public Review createReview(HttpServletRequest request, @Valid @RequestBody Review review) throws IOException {
         review.setSentiment(reviewService.getSentimentalAnalysis(review.getContent()));
+        review.setAspect(reviewService.getAspectAnalysis(review.getContent()));
         review = reviewService.create(review);
         UserActivity userActivity = new UserActivity(
                 LogTypes.REVIEW,

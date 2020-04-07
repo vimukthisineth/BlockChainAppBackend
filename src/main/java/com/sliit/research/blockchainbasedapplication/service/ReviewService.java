@@ -14,4 +14,5 @@ public interface ReviewService {
     List<Review> findByUserId(Long userId);
     List<Review> findByProductId(Long id);
     String getSentimentalAnalysis(String review) throws IOException;
+    String getAspectAnalysis(String review) throws IOException;
 }
