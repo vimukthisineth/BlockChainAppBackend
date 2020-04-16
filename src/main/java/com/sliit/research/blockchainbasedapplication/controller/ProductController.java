@@ -106,7 +106,7 @@ public class ProductController {
     @PostMapping(value = "/products/reviews", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Review createReview(HttpServletRequest request, @Valid @RequestBody Review review) throws IOException {
 //        review.setSentiment(reviewService.getSentimentalAnalysis(review.getContent()));
-        if (review.getContent().length() > 50 && review.getContent().toLowerCase().contains("price") && review.getContent().toLowerCase().contains("quality") && review.getContent().toLowerCase().contains("good") && review.getContent().toLowerCase().contains("bad")){
+        if (review.getContent().length() > 20 && (review.getContent().toLowerCase().contains("price") || review.getContent().toLowerCase().contains("quality") || review.getContent().toLowerCase().contains("good") || review.getContent().toLowerCase().contains("bad"))){
             review.setSentiment(reviewService.getSentimentalAnalysis(review.getContent()));
         }else {
             review.setSentiment("Neutral");
