@@ -69,7 +69,12 @@ public class ProductController {
         }
         Product savedProduct = productRepository.save(product);
         blockMessage = "Product: "+savedProduct.getId()+" "+blockMessage;
-        Block block = new Block(blockMessage, blockChain.getBlockChain().get(blockChain.getBlockChainSize()-1).hash);
+        Block block = null;
+        if (blockChain.getBlockChainSize() > 0){
+            block = new Block(blockMessage, blockChain.getBlockChain().get(blockChain.getBlockChainSize()-1).hash);
+        }else {
+            block = new Block(blockMessage, blockChain.getBlockChain().get(blockChain.getBlockChainSize()).hash);
+        }
         blockChain.addBlock(block);
         // Additional DB backup
         blockChainService.addBlock(block);
