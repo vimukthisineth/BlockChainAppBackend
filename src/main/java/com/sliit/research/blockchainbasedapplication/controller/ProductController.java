@@ -49,6 +49,18 @@ public class ProductController {
         BlockChain blockChain = BlockChain.getInstance();
         String blockMessage = "Farmed on: "+new Date().toString();
         if (product.getProductType() == ProductType.MANUFACTURER || product.getProductType() == ProductType.FARMER){
+            String[] nameWords = product.getName().split(" ");
+            List<Product> farmerProducts = productRepository.findByProductType(ProductType.FARMER);
+            for (Product farmerProduct : farmerProducts){
+                for (int i = 0; i < nameWords.length; i++) {
+                    if (farmerProduct.getName().toLowerCase().contains(nameWords[i])){
+                        product.setFarmedDate(farmerProduct.getFarmedDate());
+                        product.setHarvestedDate(farmerProduct.getHarvestedDate());
+                        product.setExpiryDate(farmerProduct.getExpiryDate());
+                        break;
+                    }
+                }
+            }
             if (product.getProductType() == ProductType.FARMER){
                 product.setHarvestedDate(new Date());
             }
