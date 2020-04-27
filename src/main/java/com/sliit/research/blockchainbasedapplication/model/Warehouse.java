@@ -12,6 +12,7 @@ public class Warehouse {
 
     private String name;
     private String address;
+    private String productQtyStr;
 
     public Long getId() {
         return id;
@@ -35,5 +36,13 @@ public class Warehouse {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getProductQtyStr() {
+        return productQtyStr;
+    }
+
+    public void setProductQtyStr(String productQtyStr) {
+        this.productQtyStr = productQtyStr;
     }
 }

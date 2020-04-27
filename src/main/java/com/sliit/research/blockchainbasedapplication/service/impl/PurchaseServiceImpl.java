@@ -49,7 +49,7 @@ public class PurchaseServiceImpl implements PurchaseService {
                         price,
                         cartItem.getQty(),
                         checkoutDto.getAddress(),
-                        cartItem.getWarehouse()
+                        checkoutDto.getWarehouse()
                 );
                 purchase.setUser(checkoutDto.getUser());
                 purchase = purchaseRepository.save(purchase);
