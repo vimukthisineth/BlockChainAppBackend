@@ -53,7 +53,7 @@ public class ProductController {
             List<Product> farmerProducts = productRepository.findByProductType(ProductType.FARMER);
             for (Product farmerProduct : farmerProducts){
                 for (int i = 0; i < nameWords.length; i++) {
-                    if (farmerProduct.getName().toLowerCase().contains(nameWords[i])){
+                    if (farmerProduct.getName().toLowerCase().contains(nameWords[i].toLowerCase())){
                         product.setFarmedDate(farmerProduct.getFarmedDate());
                         product.setHarvestedDate(farmerProduct.getHarvestedDate());
                         product.setExpiryDate(farmerProduct.getExpiryDate());
@@ -82,7 +82,7 @@ public class ProductController {
         Product savedProduct = productRepository.save(product);
         blockMessage = "Product: "+savedProduct.getId()+" "+blockMessage;
         Block block = null;
-        if (blockChain.getBlockChainSize() > 0){
+        if (blockChain.getBlockChainSize() >= 0){
             block = new Block(blockMessage, blockChain.getBlockChain().get(blockChain.getBlockChainSize()-1).hash);
         }else {
             block = new Block(blockMessage, blockChain.getBlockChain().get(blockChain.getBlockChainSize()).hash);
