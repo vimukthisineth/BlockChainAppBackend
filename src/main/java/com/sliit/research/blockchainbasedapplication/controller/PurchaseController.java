@@ -37,6 +37,8 @@ public class PurchaseController {
         List<Delivery> deliveries = new ArrayList<>();
         for (Purchase purchase : purchases){
             deliveries.add(new Delivery(purchase.getWarehouse().getAddress(), purchase.getAddress()));
+            purchase.setDelivered(true);
+            purchaseRepository.save(purchase);
         }
         deliveryRouteDto.setDeliveries(deliveries);
         return deliveryRouteService.calculateRoute(deliveryRouteDto);
