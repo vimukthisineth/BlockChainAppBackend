@@ -1,7 +1,10 @@
 package com.sliit.research.blockchainbasedapplication.controller;
 
+import com.sliit.research.blockchainbasedapplication.constants.LogTypes;
 import com.sliit.research.blockchainbasedapplication.dto.UserValidDto;
 import com.sliit.research.blockchainbasedapplication.model.User;
+import com.sliit.research.blockchainbasedapplication.model.UserActivity;
+import com.sliit.research.blockchainbasedapplication.repository.UserActivityRepository;
 import com.sliit.research.blockchainbasedapplication.repository.UserRepository;
 import com.sliit.research.blockchainbasedapplication.service.AuthenticationService;
 import com.sliit.research.blockchainbasedapplication.service.BlockChainService;
@@ -16,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -33,6 +37,9 @@ public class AuthenticationController {
 
     @Autowired
     BlockChainService blockChainService;
+
+    @Autowired
+    UserActivityRepository userActivityRepository;
 
     @PostMapping("/login")
     public AuthResponse attemptLogin(HttpServletRequest request, @Valid @RequestBody LoginSignup loginSignup){
@@ -77,9 +84,18 @@ public class AuthenticationController {
         List<UserValidDto> userValidDtos = new ArrayList<>();
         for (User user : users){
             boolean valid = userActivityService.isUserReal(user);
+            List<UserActivity> userActivities = userActivityRepository.findByUserId(user.getId());
             UserValidDto userValidDto = new UserValidDto(user, valid);
-            userValidDtos.add(userValidDto);
+            for (UserActivity userActivity : userActivities){
+                if (userActivity.getLogType() == LogTypes.LOGIN){
+                    userValidDto.setLastLoginTime(userActivity.getDate());
+                }
+            }
+            if (userValidDto.getLastLoginTime() != null){
+                userValidDtos.add(userValidDto);
+            }
         }
+        userValidDtos.sort(Comparator.comparing(o -> o.getLastLoginTime()));
         return userValidDtos;
     }
 

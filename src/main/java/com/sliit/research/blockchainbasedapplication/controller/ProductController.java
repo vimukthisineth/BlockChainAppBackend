@@ -2,14 +2,13 @@ package com.sliit.research.blockchainbasedapplication.controller;
 
 import com.sliit.research.blockchainbasedapplication.blockChain.Block;
 import com.sliit.research.blockchainbasedapplication.blockChain.BlockChain;
+import com.sliit.research.blockchainbasedapplication.constants.LogTypes;
 import com.sliit.research.blockchainbasedapplication.constants.ProductType;
 import com.sliit.research.blockchainbasedapplication.exception.ResourceNotFoundException;
-import com.sliit.research.blockchainbasedapplication.model.Farmer;
-import com.sliit.research.blockchainbasedapplication.model.Product;
-import com.sliit.research.blockchainbasedapplication.model.Review;
-import com.sliit.research.blockchainbasedapplication.model.User;
+import com.sliit.research.blockchainbasedapplication.model.*;
 import com.sliit.research.blockchainbasedapplication.repository.ProductRepository;
 import com.sliit.research.blockchainbasedapplication.repository.ReviewRepository;
+import com.sliit.research.blockchainbasedapplication.repository.UserActivityRepository;
 import com.sliit.research.blockchainbasedapplication.repository.UserRepository;
 import com.sliit.research.blockchainbasedapplication.service.BlockChainService;
 import com.sliit.research.blockchainbasedapplication.service.ReviewService;
@@ -43,6 +42,9 @@ public class ProductController {
 
     @Autowired
     BlockChainService blockChainService;
+
+    @Autowired
+    UserActivityRepository userActivityRepository;
 
     @PostMapping("/products")
     public Product createProduct(HttpServletRequest request, @Valid @RequestBody Product product){
@@ -124,6 +126,15 @@ public class ProductController {
             review.setSentiment("Neutral");
         }
         review.setAspect(reviewService.getAspectAnalysis(review.getContent()));
+
+        UserActivity userActivity = new UserActivity(
+                LogTypes.REVIEW,
+                new Date(),
+                review.getUser().getId(),
+                review.getProduct().getId(),
+                review.getId()
+        );
+        userActivityRepository.save(userActivity);
         return reviewRepository.save(review);
     }
 

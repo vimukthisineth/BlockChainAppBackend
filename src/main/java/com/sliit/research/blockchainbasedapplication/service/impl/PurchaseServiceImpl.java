@@ -57,7 +57,7 @@ public class PurchaseServiceImpl implements PurchaseService {
                 UserActivity userActivity = new UserActivity(
                         LogTypes.PURCHASE,
                         new Date(),
-                        null,
+                        purchase.getUser().getId(),
                         purchase.getId(),
                         null
                 );

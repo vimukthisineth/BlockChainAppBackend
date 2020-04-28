@@ -40,8 +40,8 @@ public class ReviewController {
         UserActivity userActivity = new UserActivity(
                 LogTypes.REVIEW,
                 new Date(),
-                null,
-                null,
+                review.getUser().getId(),
+                review.getProduct().getId(),
                 review.getId()
         );
         userActivityRepository.save(userActivity);
