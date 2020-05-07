@@ -28,6 +28,10 @@ public class Product {
     private Date approvedDate;
     private Date disApprovedDate;
 
+    private Long farmerId;
+    private Long manufacturerId;
+    private Long AgencyId;
+
     @JsonIgnore
     @OneToMany(mappedBy = "product")
     private List<Review> reviews;
@@ -218,5 +222,29 @@ public class Product {
 
     public void setPurchases(List<Purchase> purchases) {
         this.purchases = purchases;
+    }
+
+    public Long getFarmerId() {
+        return farmerId;
+    }
+
+    public void setFarmerId(Long farmerId) {
+        this.farmerId = farmerId;
+    }
+
+    public Long getManufacturerId() {
+        return manufacturerId;
+    }
+
+    public void setManufacturerId(Long manufacturerId) {
+        this.manufacturerId = manufacturerId;
+    }
+
+    public Long getAgencyId() {
+        return AgencyId;
+    }
+
+    public void setAgencyId(Long agencyId) {
+        AgencyId = agencyId;
     }
 }

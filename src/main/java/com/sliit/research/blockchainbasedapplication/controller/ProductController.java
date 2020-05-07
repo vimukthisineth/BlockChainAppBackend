@@ -56,6 +56,7 @@ public class ProductController {
             for (Product farmerProduct : farmerProducts){
                 for (int i = 0; i < nameWords.length; i++) {
                     if (farmerProduct.getName().toLowerCase().contains(nameWords[i].toLowerCase())){
+                        product.setFarmerId(farmerProduct.getUser().getId());
                         product.setFarmedDate(farmerProduct.getFarmedDate());
                         product.setHarvestedDate(farmerProduct.getHarvestedDate());
                         product.setExpiryDate(farmerProduct.getExpiryDate());
@@ -65,6 +66,7 @@ public class ProductController {
             }
             if (product.getProductType() == ProductType.FARMER){
                 product.setHarvestedDate(new Date());
+                product.setFarmerId(product.getUser().getId());
             }
             if (product.getId() > 0){
                 Product productOnDb = productRepository.findById(product.getId())
