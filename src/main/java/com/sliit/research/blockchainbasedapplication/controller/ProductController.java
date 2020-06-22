@@ -1,7 +1,10 @@
 package com.sliit.research.blockchainbasedapplication.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sliit.research.blockchainbasedapplication.blockChain.Block;
 import com.sliit.research.blockchainbasedapplication.blockChain.BlockChain;
+import com.sliit.research.blockchainbasedapplication.blockChain.BlockData;
 import com.sliit.research.blockchainbasedapplication.constants.LogTypes;
 import com.sliit.research.blockchainbasedapplication.constants.ProductType;
 import com.sliit.research.blockchainbasedapplication.exception.ResourceNotFoundException;
@@ -47,9 +50,10 @@ public class ProductController {
     UserActivityRepository userActivityRepository;
 
     @PostMapping("/products")
-    public Product createProduct(HttpServletRequest request, @Valid @RequestBody Product product){
+    public Product createProduct(HttpServletRequest request, @Valid @RequestBody Product product) throws JsonProcessingException {
         BlockChain blockChain = BlockChain.getInstance();
-        String blockMessage = "Farmed on: "+new Date().toString();
+        BlockData blockData = new BlockData();
+        blockData.setDate(new Date());
         if (product.getProductType() == ProductType.MANUFACTURER || product.getProductType() == ProductType.FARMER){
             String[] nameWords = product.getName().split(" ");
             List<Product> farmerProducts = productRepository.findByProductType(ProductType.FARMER);
@@ -73,23 +77,24 @@ public class ProductController {
                         .orElseThrow(() -> new ResourceNotFoundException("Product", "id", product));
                 if (!productOnDb.isApproved() && product.isApproved()){
                     product.setApprovedDate(new Date());
-                    blockMessage = "Approved on: "+new Date().toString();
+                    blockData.setBlockMessage("Approved on: "+new Date().toString());
                 }else if (productOnDb.isApproved() && !product.isApproved()){
                     product.setDisApprovedDate(new Date());
-                    blockMessage = "Disapproved on: "+new Date().toString();
+                    blockData.setBlockMessage("Disapproved on: "+new Date().toString());
                 }else {
                     product.setManufacturedDate(new Date());
-                    blockMessage = "Manufactured on: "+new Date().toString();
+                    blockData.setBlockMessage("Manufactured on: "+new Date().toString());
                 }
             }
         }
         Product savedProduct = productRepository.save(product);
-        blockMessage = "Product: "+savedProduct.getId()+" "+blockMessage;
+        blockData.setProduct(savedProduct.getId());
+        ObjectMapper objectMapper = new ObjectMapper();
         Block block = null;
         if (blockChain.getBlockChainSize() >= 0){
-            block = new Block(blockMessage, blockChain.getBlockChain().get(blockChain.getBlockChainSize()-1).hash);
+            block = new Block(objectMapper.writeValueAsString(blockData), blockChain.getBlockChain().get(blockChain.getBlockChainSize()-1).hash);
         }else {
-            block = new Block(blockMessage, blockChain.getBlockChain().get(blockChain.getBlockChainSize()).hash);
+            block = new Block(objectMapper.writeValueAsString(blockData), blockChain.getBlockChain().get(blockChain.getBlockChainSize()).hash);
         }
         blockChain.addBlock(block);
         // Additional DB backup

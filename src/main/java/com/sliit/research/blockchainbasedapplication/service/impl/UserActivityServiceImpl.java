@@ -51,7 +51,7 @@ public class UserActivityServiceImpl implements UserActivityService {
             }
         }
 
-        String userValid = HttpUtils.sendMLRequest(loginCount, purchasesCount, positiveCommentsCount, negativeCommentsCount);
+        String userValid = HttpUtils.sendMLRequestToNn(loginCount, purchasesCount, positiveCommentsCount, negativeCommentsCount);
         if ("1".equals(userValid)){
             return true;
         }else {

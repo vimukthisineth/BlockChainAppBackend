@@ -107,4 +107,10 @@ public class HttpUtils {
         JSONArray resultArray = (JSONArray) values.get(0);
         return String.valueOf(resultArray.get(resultArray.size()-1));
     }
+
+    public static String sendMLRequestToNn(int visits, int purchases, int positiveComments, int negativeComments) throws IOException, ParseException {
+        int comments = positiveComments+negativeComments;
+        String req = "http://localhost:8074/validateUser?visits_per_day="+visits+"&purchase_per_day="+purchases+"&positive_comments="+positiveComments+"&negative_comments="+negativeComments+"&comments_per_day="+comments;
+        return sendGetRequest(req);
+    }
 }
